@@ -3,7 +3,7 @@
 // All of the Node.js APIs are available in this process.
 
 const fs = require("fs")
-const NodeWebcam = require( "node-webcam" )
+const NodeWebcam = require("node-webcam")
 
 makeblob = function (dataURL) {
     var BASE64_MARKER = ';base64,';
@@ -40,6 +40,7 @@ function sendToCognitive(img_encoded) {
             // NOTE: Replace the "Ocp-Apim-Subscription-Key" value with a valid subscription key.
             xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a59001fc2df14b67ab2364ef8c324318")
         },
+        processData: false,
         type: "POST",
         // Request body
         data: makeblob(img_encoded)
@@ -91,7 +92,7 @@ function capture() {
         }
         const bitmap = fs.readFileSync(data)
         const enc = new Buffer(bitmap).toString("base64")
-        const img_encoded = `data:image/jpeg;base64,${enc}`
+        const img_encoded = `data:image/jpeg;base64, ${enc}`
         $("#message").text(img_encoded)
         $("#image-stage").attr("src", img_encoded)
         sendToCognitive(img_encoded)
