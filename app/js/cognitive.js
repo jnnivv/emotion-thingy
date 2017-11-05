@@ -1,11 +1,4 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
-const fs = require("fs")
-const NodeWebcam = require("node-webcam")
-
-makeblob = function (dataURL) {
+function makeBlob (dataURL) {
     var BASE64_MARKER = ';base64,';
     if (dataURL.indexOf(BASE64_MARKER) == -1) {
         var parts = dataURL.split(',');
@@ -27,7 +20,7 @@ makeblob = function (dataURL) {
     return new Blob([uInt8Array], { type: contentType });
 }
 
-function sendToCognitive(img_encoded) {
+sendToCognitive = function (img_encoded) {
     $.ajax({
         // NOTE: You must use the same location in your REST call as you used to obtain your subscription keys.
         //   For example, if you obtained your subscription keys from westcentralus, replace "westus" in the
@@ -43,7 +36,7 @@ function sendToCognitive(img_encoded) {
         processData: false,
         type: "POST",
         // Request body
-        data: makeblob(img_encoded)
+        data: makeBlob(img_encoded)
         //data: '{"url": "https://www.maybelline.com/~/media/mny/us/face-makeup/modules/masthead/maybelline-fit-me-foundation-powder-face-herieth-paul-1x1.jpg?h=320&w=320&la=en-US&hash=3B5E9C176BE1DD97CB6BC8F5CD2F5C7BBA440695"}',
     })
     .done(function(data) {
@@ -54,49 +47,4 @@ function sendToCognitive(img_encoded) {
     })
 }
 
-const opts = {
-    //Picture related
-    width: 1280,
-    height: 720,
-    quality: 100,
-
-    //Delay to take shot
-    delay: 0,
-
-    //Save shots in memory
-    saveShots: true,
-
-    // [jpeg, png] support varies
-    // Webcam.OutputTypes
-    output: "jpeg",
-
-    //Which camera to use
-    //Use Webcam.list() for results
-    //false for default device
-    device: false,
-
-    // [location, buffer, base64]
-    // Webcam.CallbackReturnTypes
-    callbackReturn: "location",
-
-    //Logging
-    verbose: false
-}
-
-const Webcam = NodeWebcam.create( opts )
-
-function capture() {
-    Webcam.capture("./captures/test_picture.jpeg", function(err, data) {
-        if (err) {
-            alert(err)
-        }
-        const bitmap = fs.readFileSync(data)
-        const enc = new Buffer(bitmap).toString("base64")
-        const img_encoded = `data:image/jpeg;base64, ${enc}`
-        $("#message").text(img_encoded)
-        $("#image-stage").attr("src", img_encoded)
-        sendToCognitive(img_encoded)
-    })
-}
-
-document.querySelector("#capture-button").addEventListener("click", capture)
+module.exports.sendToCognitive = sendToCognitive
