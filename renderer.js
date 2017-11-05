@@ -98,5 +98,5 @@ function capture() {
         sendToCognitive(img_encoded)
     })
 }
-capture()
-//$("#capture-button").addEventListener("click", capture)
+
+document.querySelector("#capture-button").addEventListener("click", capture)
