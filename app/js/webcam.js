@@ -37,7 +37,8 @@ const opts = {
 
 const Webcam = NodeWebcam.create( opts )
 
-function capture() {
+capture = function () {
+    alert('capturing...')
     Webcam.capture("./captures/test_picture.jpeg", function(err, data) {
         if (err) {
             alert(err)
@@ -45,10 +46,10 @@ function capture() {
         const bitmap = fs.readFileSync(data)
         const enc = new Buffer(bitmap).toString("base64")
         const img_encoded = `data:image/jpeg;base64, ${enc}`
-        $("#message").text(img_encoded)
+        $("#message").text("processing image...")
         $("#image-stage").attr("src", img_encoded)
         cognitive.sendToCognitive(img_encoded)
     })
 }
 
-document.querySelector("#capture-button").addEventListener("click", capture)
+module.exports.capture = capture

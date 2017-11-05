@@ -40,10 +40,10 @@ sendToCognitive = function (img_encoded) {
         //data: '{"url": "https://www.maybelline.com/~/media/mny/us/face-makeup/modules/masthead/maybelline-fit-me-foundation-powder-face-herieth-paul-1x1.jpg?h=320&w=320&la=en-US&hash=3B5E9C176BE1DD97CB6BC8F5CD2F5C7BBA440695"}',
     })
     .done(function(data) {
-        $('#result').text(JSON.stringify(data))
+        $('#message').text(JSON.stringify(data))
     })
     .fail(function(err) {
-        $('#result').text(JSON.stringify(err))
+        $('#message').text(JSON.stringify(err))
     })
 }
 
