@@ -16,7 +16,7 @@ const opts = {
     delay: 0,
 
     //Save shots in memory
-    saveShots: true,
+    saveShots: false,
 
     // [jpeg, png] support varies
     // Webcam.OutputTypes
@@ -29,7 +29,7 @@ const opts = {
 
     // [location, buffer, base64]
     // Webcam.CallbackReturnTypes
-    callbackReturn: "location",
+    callbackReturn: "base64",
 
     //Logging
     verbose: false
@@ -43,12 +43,9 @@ capture = function () {
         if (err) {
             alert(err)
         }
-        const bitmap = fs.readFileSync(data)
-        const enc = new Buffer(bitmap).toString("base64")
-        const img_encoded = `data:image/jpeg;base64, ${enc}`
         $("#message").text("processing image...")
-        $("#image-stage").attr("src", img_encoded)
-        cognitive.sendToCognitive(img_encoded)
+        $("#image-stage").attr("src", data)
+        cognitive.sendToCognitive(data)
     })
 }
 
