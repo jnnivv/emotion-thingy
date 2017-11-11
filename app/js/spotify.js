@@ -1,6 +1,7 @@
 const fs = require("fs")
 const https = require("https")
 const querystring = require("querystring")
+const youtube = require("./youtube")
 
 let token = null
 
@@ -65,7 +66,7 @@ function getRecommendations(token, song_params) {
       res.on('data', function(data) {
           const playlist = JSON.parse(data)
 
-          console.log("Artist name: " + playlist.tracks[0].artists[0].name)
+        //  console.log("Artist name: " + playlist.tracks[0].artists[0].name)
           console.log("Song name: " + playlist.tracks[0].name)
           console.log("Song url: " + playlist.tracks[0].external_urls.spotify)
 
@@ -77,6 +78,10 @@ function getRecommendations(token, song_params) {
                   "Artist name: " + artist + ", " + "Song name: " + name + "</div>"
               )
           }
+
+          youtube.defineRequest(playlist.tracks[0].artists[0].name + " " + playlist.tracks[0].name);
+
+
       })
   })
 
