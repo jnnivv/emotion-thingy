@@ -49,6 +49,7 @@ function getRecommendations(token, song_params) {
   const params = querystring.stringify(song_params)
   console.log(params)
   console.log(token.access_token)
+  const bearer_token = token.access_token
   const options = {
       //https://api.spotify.com/v1/recommendations?limit=50
       host: "api.spotify.com",
@@ -57,7 +58,7 @@ function getRecommendations(token, song_params) {
       method: "GET",
       headers: {
         //"Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${token.access_token}`
+        "Authorization": `Bearer ${bearer_token}`
       }
   }
 
