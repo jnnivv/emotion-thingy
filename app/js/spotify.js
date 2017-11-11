@@ -28,7 +28,7 @@ function AuthRequest(callback, params) {
 
         const req = https.request(options, function(res) {
             res.on('data', function(data) {
-                alert("authorization succeeded" + data)
+                //alert("authorization succeeded" + data)
                 token = JSON.parse(data)
                 callback(token, params)
             })
@@ -63,7 +63,20 @@ function getRecommendations(token, song_params) {
 
   const req = https.request(options, function(res) {
       res.on('data', function(data) {
-          console.log("recommendations succeeded" + data)
+          const playlist = JSON.parse(data)
+
+          console.log("Artist name: " + playlist.tracks[0].artists[0].name)
+          console.log("Song name: " + playlist.tracks[0].name)
+          console.log("Song url: " + playlist.tracks[0].external_urls.spotify)
+
+          for(i = 0; i<playlist.tracks.length; i++) {
+            const artist = playlist.tracks[i].artists[0].name
+            const name = playlist.tracks[i].name
+            const url = playlist.tracks[i].external_urls.spotify
+            $("#playlist").append("<div class=\"song\">" +
+                  "Artist name: " + artist + ", " + "Song name: " + name + "</div>"
+              )
+          }
       })
   })
 

@@ -1,3 +1,5 @@
+const spotify = require("./spotify")
+
 function makeBlob (dataURL) {
     var BASE64_MARKER = ';base64,';
     if (dataURL.indexOf(BASE64_MARKER) == -1) {
@@ -41,6 +43,18 @@ sendToCognitive = function (img_encoded) {
     })
     .done(function(data) {
         $('#message').text(JSON.stringify(data))
+
+        spotify.AuthRequest(spotify.getRecommendations, {
+          seed_genres: 'k-pop',
+          limit: 5,
+          //max_acousticness: 0.5,
+          //max_danceability: 0.5,
+          //max_energy: 0.5,
+          //max_instrumentalness: 0.5,
+          //max_tempo: 0.5,
+          max_valence: data[0].scores.neutral
+        })
+        console.log(data[0].scores)
     })
     .fail(function(err) {
         $('#message').text(JSON.stringify(err))

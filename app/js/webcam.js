@@ -8,8 +8,8 @@ const cognitive = require("./cognitive")
 
 const opts = {
     //Picture related
-    width: 1280,
-    height: 720,
+    width: 500,
+    height: 500,
     quality: 100,
 
     //Delay to take shot
@@ -38,14 +38,16 @@ const opts = {
 const Webcam = NodeWebcam.create( opts )
 
 capture = function () {
-    alert('capturing...')
+    //alert('capturing...')
     Webcam.capture("./captures/test_picture.jpeg", function(err, data) {
         if (err) {
             alert(err)
         }
         $("#message").text("processing image...")
         $("#image-stage").attr("src", data)
+
         cognitive.sendToCognitive(data)
+        
     })
 }
 
