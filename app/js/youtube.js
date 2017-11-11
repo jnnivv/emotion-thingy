@@ -9,13 +9,15 @@ var GoogleAuth;
  */
 function handleClientLoad() {
   gapi.load('client:auth2', initClient);
+  console.log("hello")
 }
 
 function initClient() {
   // Initialize the gapi.client object, which app uses to make API requests.
   // Get API key and client ID from API Console.
   // 'scope' field specifies space-delimited list of access scopes
-
+  console.log("before")
+  console.log(gapi.client)
   gapi.client.init({
       'clientId': '615234137625-s6qlerl27bb1t9p58dc9mf8a84r1vnii.apps.googleusercontent.com',
       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
@@ -25,12 +27,13 @@ function initClient() {
 
     // Listen for sign-in state changes.
     GoogleAuth.isSignedIn.listen(updateSigninStatus);
-
+    console.log("init")
     // Handle initial sign-in state. (Determine if user is already signed in.)
     setSigninStatus();
 
 
-  });
+  }, function (err) { console.log(err) })
+  console.log("after")
 }
 
 function handleAuthClick(event) {

@@ -10,7 +10,39 @@
   <body>
 
     <div class="container">
+      <div id="checks">
+        <input type="checkbox" value="acoustic"> acoustic
+        <input type="checkbox" value="alt-rock"> alt-rock
+        <input type="checkbox" value="alternative"> alternative
+        <input type="checkbox" value="blues"> blues
+        <input type="checkbox" value="chicago-house"> chicago house
+        <input type="checkbox" value="chill"> chill
+        <input type="checkbox" value="classical"> classical
+        <input type="checkbox" value="country"> country
+        <input type="checkbox" value="death-metal"> death metal
+        <input type="checkbox" value="disco"> disco
+        <input type="checkbox" value="disney"> disney
+        <input type="checkbox" value="electronic"> electronic
+        <input type="checkbox" value="emo"> emo
+        <input type="checkbox" value="folk"> folk
+        <input type="checkbox" value="funk"> funk
+        <input type="checkbox" value="hard-rock"> hard rock
+        <input type="checkbox" value="hip-hop"> hip hop
+        <input type="checkbox" value="indie"> indie
+        <input type="checkbox" value="indie-pop"> indie pop
+        <input type="checkbox" value="jazz"> jazz
+        <input type="checkbox" value="k-pop"> k-pop
+        <input type="checkbox" value="mandopop"> mandopop
+        <input type="checkbox" value="pop"> pop
+        <input type="checkbox" value="punk"> punk
+        <input type="checkbox" value="r-n-b"> r-n-b
+        <input type="checkbox" value="reggae"> reggae
+        <input type="checkbox" value="rock"> rock
+        <input type="checkbox" value="techno"> techno
 
+
+
+      </div>
       <button id="capture-button">Capture</button>
       <img id="image-stage"></div>
       <div id="message"></div>
@@ -23,8 +55,10 @@
       // You can also require other files to run in this process
       require('./js/renderer.js')
     </script>
+
+
     <script async defer src="https://apis.google.com/js/api.js"
-          onload="this.onload=function(){};handleClientLoad()"
+          onload="handleClientLoad()"
           onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
   </body>
