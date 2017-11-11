@@ -28,7 +28,6 @@ function AuthRequest(callback, params) {
 
         const req = https.request(options, function(res) {
             res.on('data', function(data) {
-                alert("authorization succeeded" + data)
                 token = JSON.parse(data)
                 callback(token, params)
             })
@@ -51,13 +50,11 @@ function getRecommendations(token, song_params) {
   console.log(token.access_token)
   const bearer_token = token.access_token
   const options = {
-      //https://api.spotify.com/v1/recommendations?limit=50
       host: "api.spotify.com",
       port: 443,
       path: `/v1/recommendations?${params}`,
       method: "GET",
       headers: {
-        //"Content-Type": "application/x-www-form-urlencoded",
         "Authorization": `Bearer ${bearer_token}`
       }
   }
