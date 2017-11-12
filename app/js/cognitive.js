@@ -1,4 +1,8 @@
+const fs = require("fs")
 const spotify = require("./spotify")
+
+let genres = []
+let genres_checkboxes = []
 
 function makeBlob (dataURL) {
     var BASE64_MARKER = ';base64,';
@@ -77,5 +81,31 @@ function sortByValue(jsObj){
 	return sortedArray.sort();
 }
 
+function loadSettings() { 
+    fs.readFile("./app/spotify-settings.json", function(err, json_settings) {
+        if (err) {
+            alert(err)
+        } else {
+            const settings = JSON.parse(json_settings)
+            genres = settings.genres
+            const checks = document.getElementById("checks")
+            const ul = document.createElement("ul")
+            checks.appendChild(ul)
+            for (let i = 0; i < genres.length; i++) {
+                const li = document.createElement("li")
+                const label = document.createElement("label")
+                const c = document.createElement("input")
+                ul.appendChild(li)
+                li.appendChild(label)
+                label.appendChild(c)
+                c.type = "checkbox"
+                c.value = genres[i]
+                label.innerHTML = label.innerHTML + " " + genres[i]
+                genres_checkboxes.push(c)
+            }
+        }
+    })
+}
+loadSettings()
 
 module.exports.sendToCognitive = sendToCognitive
