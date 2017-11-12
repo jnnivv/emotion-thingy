@@ -51,6 +51,8 @@ sendToCognitive = function (img_encoded) {
 
         const first_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][0]
         const second_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-2][0]
+        const first = sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1]
+        const second = sortedbyValueJSONArray[sortedbyValueJSONArray.length-2][1]
 
         spotify.AuthRequest(spotify.getRecommendations, {
           seed_genres: 'k-pop,pop,mandopop',
