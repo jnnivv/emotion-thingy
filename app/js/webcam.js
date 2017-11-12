@@ -8,15 +8,15 @@ const cognitive = require("./cognitive")
 
 const opts = {
     //Picture related
-    width: 1280,
-    height: 720,
+    width: 500,
+    height: 500,
     quality: 100,
 
     //Delay to take shot
     delay: 0,
 
     //Save shots in memory
-    saveShots: true,
+    saveShots: false,
 
     // [jpeg, png] support varies
     // Webcam.OutputTypes
@@ -29,7 +29,7 @@ const opts = {
 
     // [location, buffer, base64]
     // Webcam.CallbackReturnTypes
-    callbackReturn: "location",
+    callbackReturn: "base64",
 
     //Logging
     verbose: false
@@ -37,18 +37,18 @@ const opts = {
 
 const Webcam = NodeWebcam.create( opts )
 
-function capture() {
+capture = function () {
+    //alert('capturing...')
     Webcam.capture("./captures/test_picture.jpeg", function(err, data) {
         if (err) {
             alert(err)
         }
-        const bitmap = fs.readFileSync(data)
-        const enc = new Buffer(bitmap).toString("base64")
-        const img_encoded = `data:image/jpeg;base64, ${enc}`
-        $("#message").text(img_encoded)
-        $("#image-stage").attr("src", img_encoded)
-        cognitive.sendToCognitive(img_encoded)
+        $("#message").text("processing image...")
+        $("#image-stage").attr("src", data)
+
+        cognitive.sendToCognitive(data)
+        
     })
 }
 
-document.querySelector("#capture-button").addEventListener("click", capture)
+module.exports.capture = capture

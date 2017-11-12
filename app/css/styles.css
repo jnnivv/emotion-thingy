@@ -1,3 +1,22 @@
+body {
+  font-family: 'Inconsolata';
+}
 #capture-button {
   background-color: yellow;
+  border: none;
+  font-family: 'Inconsolata';
+  display:block;
+}
+
+#image-stage {
+  width: 50%;
+}
+
+#message {
+  width:500px;
+  word-break:break-all;
+}
+
+.container {
+  width: 600px;
 }
