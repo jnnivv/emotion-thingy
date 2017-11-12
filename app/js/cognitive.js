@@ -50,23 +50,52 @@ sendToCognitive = function (img_encoded) {
         var sortedbyValueJSONArray = sortByValue(s);
         console.log(sortedbyValueJSONArray);
         //for(i = 0; i< data[0])
-        $('#message').text(sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1])
+        $("#playlist").append("<h1>" + sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1] + "</h1>")
+        //$('#message').text(sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1])
 
         const first_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][0]
         const second_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-2][0]
         const first = sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1]
         const second = sortedbyValueJSONArray[sortedbyValueJSONArray.length-2][1]
 
-        spotify.AuthRequest(spotify.getRecommendations, {
-          seed_genres: getCheckedGenres(),
+        const genre = getRandomGenre()
+
+        const options = {
+          seed_genres: genre,
           limit: 5,
           //max_acousticness: 0.5,
           //max_danceability: 0.5,
           //max_energy: 0.5,
           //max_instrumentalness: 0.5,
           //max_tempo: 0.5,
-          max_valence: data[0].scores.neutral
-        })
+          //max_valence: first_val
+        }
+        if(first == "sadness") {
+          options.max_valence = 0.3
+          options.max_energy = 0.3
+        } else if (first == "happiness") {
+          options.min_valence = Math.min(first_val, 0.9)
+          options.min_energy = 0.7
+        } else if (first == "anger") {
+          options.min_energy = 0.7
+          options.min_valence = 0.5
+        } else if (first == "contempt" || first == "disgust") {
+          options.min_energy = 0.5
+          options.max_valence = 0.3
+        } else if (first == "fear") {
+          options.max_energy = 0.4
+          options.max_valence = 0.3
+        } else if (first == "neutral") {
+          options.max_valence = 0.6
+          options.max_energy = 0.6
+        } else if (first == "surprise") {
+          options.max_energy = 0.4
+          options.max_valence = 0.7
+        }
+
+
+        $("#playlist").append(JSON.stringify(options, null, "\t"))
+        spotify.AuthRequest(spotify.getRecommendations, options)
 
 
     })
@@ -87,28 +116,18 @@ function sortByValue(jsObj){
 	return sortedArray.sort();
 }
 
-function getCheckedGenres() {
+function getRandomGenre() {
     const checks = document.getElementById("checks")
     const genre_checkboxes = Array.from(checks.getElementsByTagName("input"))
-    const checked_genres = genre_checkboxes.reduce(function (a, c) {
-        if (c.checked) {
-            if (a.length == 0) {
-                return c.value
-            } else {
-                return a + "," + c.value
-            }
-        } else {
-            return a
-        }
-    }, "")
-    if (checked_genres.length == 0) {
-        return "NA"
+    const checked_genres = genre_checkboxes.filter((c) => c.checked)
+    if(checked_genres.length == 0) {
+      return "NA"
     } else {
-        return checked_genres[Math.floor(Math.random() * checked_genres.length)].value
+      return checked_genres[Math.floor(Math.random() * checked_genres.length)].value
     }
 }
 
-function loadSettings() { 
+function loadSettings() {
     fs.readFile("./app/spotify-settings.json", function(err, json_settings) {
         if (err) {
             alert(err)

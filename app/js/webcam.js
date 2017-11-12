@@ -36,18 +36,21 @@ const opts = {
 }
 
 const Webcam = NodeWebcam.create( opts )
-
+let i = 0
 capture = function () {
     //alert('capturing...')
-    Webcam.capture("./captures/test_picture.jpeg", function(err, data) {
+    Webcam.capture("./captures/test_picture" + i + ".jpeg", function(err, data) {
         if (err) {
             alert(err)
         }
-        $("#message").text("processing image...")
-        $("#image-stage").attr("src", data)
+        //$("#message").text("processing image...")
+        $("#image").append("<img src =\"" + data + "\"/>")
+        //$("#image-stage").attr("src", data)
 
         cognitive.sendToCognitive(data)
-        
+
+        i++
+
     })
 }
 

@@ -63,9 +63,14 @@ function getRecommendations(token, song_params) {
   }
 
   const req = https.request(options, function(res) {
+      let playlist_data = ""
       res.on('data', function(data) {
-          const playlist = JSON.parse(data)
-          console.log(playlist)
+          playlist_data += data
+      })
+
+      res.on('end', function() {
+        const playlist = JSON.parse(playlist_data)
+        console.log(playlist)
         //  console.log("Artist name: " + playlist.tracks[0].artists[0].name)
           console.log("Song name: " + playlist.tracks[0].name)
           console.log("Song url: " + playlist.tracks[0].external_urls.spotify)
@@ -74,10 +79,13 @@ function getRecommendations(token, song_params) {
             const artist = playlist.tracks[i].artists[0].name
             const name = playlist.tracks[i].name
             const url = playlist.tracks[i].external_urls.spotify
-            $("#playlist").append("<div class=\"song\">" +
+            /*$("#playlist").append("<div class=\"song\">" +
                   "Artist name: " + artist + ", " + "Song name: " + name + "</div>"
-              )
+              )*/
+
           }
+
+          
 
           $("#playlist").append("<br/><iframe src=\"https://open.spotify.com/embed?uri=" + playlist.tracks[0].uri +
            "\" width=\"100%\" height=\"80\" frameborder=\"0\" allowtransparency=\"true\"></iframe>")
