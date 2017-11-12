@@ -2,7 +2,6 @@ const fs = require("fs")
 const spotify = require("./spotify")
 
 let genres = []
-let genres_checkboxes = []
 
 function makeBlob (dataURL) {
     var BASE64_MARKER = ';base64,';
@@ -49,7 +48,7 @@ sendToCognitive = function (img_encoded) {
 
 
         spotify.AuthRequest(spotify.getRecommendations, {
-          seed_genres: 'k-pop',
+          seed_genres: getCheckedGenres(),
           limit: 5,
           //max_acousticness: 0.5,
           //max_danceability: 0.5,
@@ -81,6 +80,27 @@ function sortByValue(jsObj){
 	return sortedArray.sort();
 }
 
+function getCheckedGenres() {
+    const checks = document.getElementById("checks")
+    const genre_checkboxes = Array.from(checks.getElementsByTagName("input"))
+    const checked_genres = genre_checkboxes.reduce(function (a, c) {
+        if (c.checked) {
+            if (a.length == 0) {
+                return c.value
+            } else {
+                return a + "," + c.value
+            }
+        } else {
+            return a
+        }
+    }, "")
+    if (checked_genres.length == 0) {
+        return "NA"
+    } else {
+        return checked_genres[Math.floor(Math.random() * checked_genres.length)].value
+    }
+}
+
 function loadSettings() { 
     fs.readFile("./app/spotify-settings.json", function(err, json_settings) {
         if (err) {
@@ -100,8 +120,8 @@ function loadSettings() {
                 label.appendChild(c)
                 c.type = "checkbox"
                 c.value = genres[i]
+                c.defaultChecked = Math.random() > 0.5
                 label.innerHTML = label.innerHTML + " " + genres[i]
-                genres_checkboxes.push(c)
             }
         }
     })
