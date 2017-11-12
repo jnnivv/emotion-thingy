@@ -42,10 +42,18 @@ sendToCognitive = function (img_encoded) {
         //data: '{"url": "https://www.maybelline.com/~/media/mny/us/face-makeup/modules/masthead/maybelline-fit-me-foundation-powder-face-herieth-paul-1x1.jpg?h=320&w=320&la=en-US&hash=3B5E9C176BE1DD97CB6BC8F5CD2F5C7BBA440695"}',
     })
     .done(function(data) {
+        console.log(data[0].scores)
+        var s = data[0].scores
+        var sortedbyValueJSONArray = sortByValue(s);
+        console.log(sortedbyValueJSONArray);
+        //for(i = 0; i< data[0])
+        $('#message').text(sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1])
 
+        const first_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][0]
+        const second_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-2][0]
 
         spotify.AuthRequest(spotify.getRecommendations, {
-          seed_genres: 'k-pop',
+          seed_genres: 'k-pop,pop,mandopop',
           limit: 5,
           //max_acousticness: 0.5,
           //max_danceability: 0.5,
@@ -54,12 +62,7 @@ sendToCognitive = function (img_encoded) {
           //max_tempo: 0.5,
           max_valence: data[0].scores.neutral
         })
-        console.log(data[0].scores)
-        var s = data[0].scores
-        var sortedbyValueJSONArray = sortByValue(s);
-        console.log(sortedbyValueJSONArray);
-        //for(i = 0; i< data[0])
-        $('#message').text(sortedbyValueJSONArray)
+
 
     })
     .fail(function(err) {
@@ -71,11 +74,35 @@ function sortByValue(jsObj){
   	var sortedArray = [];
   	for(var i in jsObj)
   	{
+      console.log(scientificToDecimal(jsObj[i]))
+      var num = scientificToDecimal(jsObj[i]);
   		// Push each JSON Object entry in array by [value, key]
-		sortedArray.push([jsObj[i], i]);
+		sortedArray.push([num, i]);
 	}
 	return sortedArray.sort();
 }
 
+
+function scientificToDecimal(num) {
+    //if the number is in scientific notation remove it
+    if(/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
+        var zero = '0',
+            parts = String(num).toLowerCase().split('e'), //split into coeff and exponent
+            e = parts.pop(),//store the exponential part
+            l = Math.abs(e), //get the number of zeros
+            sign = e/l,
+            coeff_array = parts[0].split('.');
+        if(sign === -1) {
+            num = zero + '.' + new Array(l).join(zero) + coeff_array.join('');
+        }
+        else {
+            var dec = coeff_array[1];
+            if(dec) l = l - dec.length;
+            num = coeff_array.join('') + new Array(l+1).join(zero);
+        }
+    }
+
+    return num;
+};
 
 module.exports.sendToCognitive = sendToCognitive

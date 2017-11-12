@@ -65,7 +65,7 @@ function getRecommendations(token, song_params) {
   const req = https.request(options, function(res) {
       res.on('data', function(data) {
           const playlist = JSON.parse(data)
-
+          console.log(playlist)
         //  console.log("Artist name: " + playlist.tracks[0].artists[0].name)
           console.log("Song name: " + playlist.tracks[0].name)
           console.log("Song url: " + playlist.tracks[0].external_urls.spotify)
@@ -79,7 +79,9 @@ function getRecommendations(token, song_params) {
               )
           }
 
-          youtube.defineRequest(playlist.tracks[0].artists[0].name + " " + playlist.tracks[0].name);
+          $("#playlist").append("<br/><iframe src=\"https://open.spotify.com/embed?uri=" + playlist.tracks[0].uri +
+           "\" width=\"100%\" height=\"80\" frameborder=\"0\" allowtransparency=\"true\"></iframe>")
+          //youtube.defineRequest(playlist.tracks[0].artists[0].name + " " + playlist.tracks[0].name);
 
 
       })
