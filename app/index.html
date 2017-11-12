@@ -11,40 +11,9 @@
   <body>
 
     <div class="container">
-      <div id="checks">
-      <ul>
-        <li><label><input type="checkbox" value="acoustic"> acoustic</label></li>
-        <li><label><input type="checkbox" value="alt-rock"> alt-rock</label></li>
-        <li><label><input type="checkbox" value="alternative"> alternative</label></li>
-        <li><label><input type="checkbox" value="blues"> blues</label></li>
-        <li><label><input type="checkbox" value="chicago-house"> chicago house</label></li>
-        <li><label><input type="checkbox" value="chill"> chill</label></li>
-        <li><label><input type="checkbox" value="classical"> classical</label></li>
-        <li><label><input type="checkbox" value="country"> country</label></li>
-        <li><label><input type="checkbox" value="death-metal"> death metal</label></li>
-        <li><label><input type="checkbox" value="disco"> disco</label></li>
-        <li><label><input type="checkbox" value="disney"> disney</label></li>
-        <li><label><input type="checkbox" value="electronic"> electronic</label></li>
-        <li><label><input type="checkbox" value="emo"> emo</label></li>
-        <li><label><input type="checkbox" value="folk"> folk</label></li>
-        <li><label><input type="checkbox" value="funk"> funk</label></li>
-        <li><label><input type="checkbox" value="hard-rock"> hard rock</label></li>
-        <li><label><input type="checkbox" value="hip-hop"> hip hop</label></li>
-        <li><label><input type="checkbox" value="indie"> indie</label></li>
-        <li><label><input type="checkbox" value="indie-pop"> indie pop</label></li>
-        <li><label><input type="checkbox" value="jazz"> jazz</label></li>
-        <li><label><input type="checkbox" value="k-pop"> k-pop</label></li>
-        <li><label><input type="checkbox" value="mandopop"> mandopop</label></li>
-        <li><label><input type="checkbox" value="pop"> pop</label></li>
-        <li><label><input type="checkbox" value="punk"> punk</label></li>
-        <li><label><input type="checkbox" value="r-n-b"> r-n-b</label></li>
-        <li><label><input type="checkbox" value="reggae"> reggae</label></li>
-        <li><label><input type="checkbox" value="rock"> rock</label></li>
-        <li><label><input type="checkbox" value="techno"> techno</label></li>
-      </ul>
 
+      <div id="checks"></div>
 
-      </div>
       <button id="capture-button">Capture</button>
       <div id="image"><img id="image-stage"/></div>
       <div class="right">
@@ -65,10 +34,5 @@
       require('./js/renderer.js')
     </script>
 
-
-    <script async defer src="https://apis.google.com/js/api.js"
-          onload="handleClientLoad()"
-          onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
   </body>
 </html>

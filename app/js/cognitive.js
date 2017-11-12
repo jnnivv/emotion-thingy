@@ -1,4 +1,7 @@
+const fs = require("fs")
 const spotify = require("./spotify")
+
+let genres = []
 
 function makeBlob (dataURL) {
     var BASE64_MARKER = ';base64,';
@@ -55,7 +58,7 @@ sendToCognitive = function (img_encoded) {
         const second = sortedbyValueJSONArray[sortedbyValueJSONArray.length-2][1]
 
         spotify.AuthRequest(spotify.getRecommendations, {
-          seed_genres: 'k-pop,pop,mandopop',
+          seed_genres: getCheckedGenres(),
           limit: 5,
           //max_acousticness: 0.5,
           //max_danceability: 0.5,
@@ -84,6 +87,53 @@ function sortByValue(jsObj){
 	return sortedArray.sort();
 }
 
+function getCheckedGenres() {
+    const checks = document.getElementById("checks")
+    const genre_checkboxes = Array.from(checks.getElementsByTagName("input"))
+    const checked_genres = genre_checkboxes.reduce(function (a, c) {
+        if (c.checked) {
+            if (a.length == 0) {
+                return c.value
+            } else {
+                return a + "," + c.value
+            }
+        } else {
+            return a
+        }
+    }, "")
+    if (checked_genres.length == 0) {
+        return "NA"
+    } else {
+        return checked_genres[Math.floor(Math.random() * checked_genres.length)].value
+    }
+}
+
+function loadSettings() { 
+    fs.readFile("./app/spotify-settings.json", function(err, json_settings) {
+        if (err) {
+            alert(err)
+        } else {
+            const settings = JSON.parse(json_settings)
+            genres = settings.genres
+            const checks = document.getElementById("checks")
+            const ul = document.createElement("ul")
+            checks.appendChild(ul)
+            for (let i = 0; i < genres.length; i++) {
+                const li = document.createElement("li")
+                const label = document.createElement("label")
+                const c = document.createElement("input")
+                ul.appendChild(li)
+                li.appendChild(label)
+                label.appendChild(c)
+                c.type = "checkbox"
+                c.value = genres[i]
+                c.defaultChecked = Math.random() > 0.5
+                label.innerHTML = label.innerHTML + " " + genres[i]
+            }
+        }
+    })
+}
+loadSettings()
 
 function scientificToDecimal(num) {
     //if the number is in scientific notation remove it
