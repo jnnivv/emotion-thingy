@@ -85,10 +85,10 @@ function getRecommendations(token, song_params) {
 
           }
 
-          
 
-          $("#playlist").append("<br/><iframe src=\"https://open.spotify.com/embed?uri=" + playlist.tracks[0].uri +
+          $(".row .right").last().append("<br/><iframe src=\"https://open.spotify.com/embed?uri=" + playlist.tracks[0].uri +
            "\" width=\"100%\" height=\"80\" frameborder=\"0\" allowtransparency=\"true\"></iframe>")
+          //$("#playlist").append()
           //youtube.defineRequest(playlist.tracks[0].artists[0].name + " " + playlist.tracks[0].name);
 
 

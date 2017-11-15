@@ -44,8 +44,11 @@ capture = function () {
             alert(err)
         }
         //$("#message").text("processing image...")
-        $("#image").append("<img src =\"" + data + "\"/>")
+        //$("#image").append("<img src =\"" + data + "\"/>")
         //$("#image-stage").attr("src", data)
+
+        $(".container").append("<div class=\"row\"><div class=\"left\">" +
+        "<img src =\"" + data + "\"/></div></div>")
 
         cognitive.sendToCognitive(data)
 

@@ -50,7 +50,8 @@ sendToCognitive = function (img_encoded) {
         var sortedbyValueJSONArray = sortByValue(s);
         console.log(sortedbyValueJSONArray);
         //for(i = 0; i< data[0])
-        $("#playlist").append("<h1>" + sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1] + "</h1>")
+
+      //  $("#playlist").append("<h1>" + sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1] + "</h1>")
         //$('#message').text(sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1])
 
         const first_val = sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][0]
@@ -77,8 +78,8 @@ sendToCognitive = function (img_encoded) {
           options.min_valence = Math.min(first_val, 0.9)
           options.min_energy = 0.7
         } else if (first == "anger") {
-          options.min_energy = 0.7
-          options.min_valence = 0.5
+          options.min_energy = 0.8
+          options.max_valence = 0.2
         } else if (first == "contempt" || first == "disgust") {
           options.min_energy = 0.5
           options.max_valence = 0.3
@@ -87,14 +88,16 @@ sendToCognitive = function (img_encoded) {
           options.max_valence = 0.3
         } else if (first == "neutral") {
           options.max_valence = 0.6
-          options.max_energy = 0.6
+          options.max_energy = 0.7
         } else if (first == "surprise") {
           options.max_energy = 0.4
           options.max_valence = 0.7
         }
 
+        $(".row").last().append("<div class=\"right\">" +
+                "<h1>" + sortedbyValueJSONArray[sortedbyValueJSONArray.length-1][1] + "</h1>" + JSON.stringify(options, null, "\t") + "</div>" );
 
-        $("#playlist").append(JSON.stringify(options, null, "\t"))
+        //$("#playlist").append(JSON.stringify(options, null, "\t"))
         spotify.AuthRequest(spotify.getRecommendations, options)
 
 
